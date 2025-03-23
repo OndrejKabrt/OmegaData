@@ -35,10 +35,13 @@ def save_to_csv(estates_data, filename=None):
 
         for estate in estates_data:
             null_in = 0
+            null_cost = 0
             for key,val in estate.items():
                 if re.match("Neuvedeno", str(val)):
                     null_in += 1
-            if null_in == 0:
+                elif re.match("Cena", str(key)) and int(val) == 0:
+                    null_cost += 1
+            if (null_in == 0) and (null_cost == 0):
                 writer.writerow(estate)
 
     print(f"Data byla úspěšně uložena do souboru: {filename}")
