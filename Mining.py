@@ -23,9 +23,9 @@ def save_to_csv(estates_data, filename=None):
 
     # Definice hlavičky CSV souboru
     fieldnames = [
-        "Název", "Dispozice", "Lokalita", "Cena", "Plocha",
-        "GPS_lat", "GPS_lon", "Vlastnosti_budovy", "Občanská_vybavenost",
-        "Novostavba", "Hlavní_obrázek", "Odkaz_na_detail"
+        "Pocet_pokoju","Kuchyne", "Cena", "Plocha",
+        "GPS_lat", "GPS_lon",
+        "Novostavba", "Rekonstuovano", "Vytah", "Parkovani", "Sklep", "Balkon"
     ]
 
     # Zápis dat do CSV souboru
@@ -34,16 +34,20 @@ def save_to_csv(estates_data, filename=None):
         writer.writeheader()
 
         for estate in estates_data:
-            writer.writerow(estate)
+            null_in = 0
+            for key,val in estate.items():
+                if re.match("Neuvedeno", str(val)):
+                    null_in += 1
+            if null_in == 0:
+                writer.writerow(estate)
 
     print(f"Data byla úspěšně uložena do souboru: {filename}")
     return filename
 
-
 def format_price(price):
     """Formátuje cenu do čitelného formátu"""
     if isinstance(price, int):
-        return f"{price:,}".replace(",", " ")
+        return f"{price:,}".replace(",", "")
     return str(price)
 
 
@@ -61,7 +65,7 @@ def fetch_sreality_data(pages=4):
     base_url = "https://www.sreality.cz/api/cs/v2/estates?category_main_cb=1&category_type_cb=1&per_page=20&page="
     all_estates = []
 
-    for i in range(1, 150):
+    for i in range(1, 175):
         current_url = base_url + str(i)
         print(f"Fetching: {current_url}")
 
@@ -73,18 +77,27 @@ def fetch_sreality_data(pages=4):
             for estate in data["_embedded"]["estates"]:
                 # Základní informace
                 name = estate.get('name', 'Neuvedeno')
-                locality = estate.get('locality', 'Neuvedeno')
                 price = estate.get('price', 'Neuvedeno')
-                hash_id = estate.get('hash_id', '')
 
-                # Vytvoření přímého odkazu na stránku nemovitosti
-                property_url = f"https://www.sreality.cz/detail/prodej/byt//{estate.get('seo', {}).get('locality', '')}/{hash_id}"
 
                 # Extrakce dispozice a plochy z názvu
                 layout = "Neuvedeno"
+                room_number = "Neuvedeno"
+                kitchen = "Neuvedeno"
                 layout_match = re.search(r'Prodej bytu (\d\+\w+)', name)
                 if layout_match:
                     layout = layout_match.group(1)
+                    if re.match("^\d+\+kk$", layout):
+                        s = layout.split("+")
+                        room_number = s[0]
+                        kitchen = "1"
+                    elif re.match("^\d+\+\d+$", layout):
+                        s = layout.split("+")
+                        room_number = int(s[0]) + int(s[1])
+                        kitchen = "0"
+                    else:
+                        room_number = layout
+                        kitchen = "0"
 
                 area = "Neuvedeno"
                 area_match = re.search(r'(\d+)\s*m²', name)
@@ -96,48 +109,12 @@ def fetch_sreality_data(pages=4):
                 lat = gps.get('lat', 'Neuvedeno')
                 lon = gps.get('lon', 'Neuvedeno')
 
+
                 # Vlastnosti nemovitosti
                 labels = estate.get('labels', [])
-                labels_str = ", ".join(labels) if labels else "Neuvedeno"
 
-                # Kontrola, zda jde o novostavbu
-                is_new_building = "Ano" if "Novostavba" in labels else "Ne"
 
-                # Extrakce občanské vybavenosti z labelsAll
-                civic_amenities = []
-                if 'labelsAll' in estate and len(estate['labelsAll']) > 1:
-                    # Druhý seznam v labelsAll obvykle obsahuje občanskou vybavenost
-                    for amenity in estate['labelsAll'][1]:
-                        # Mapování hodnot API na čitelnější české názvy
-                        amenity_mapping = {
-                            'theater': 'Divadlo',
-                            'vet': 'Veterinář',
-                            'small_shop': 'Obchůdek',
-                            'movies': 'Kino',
-                            'candy_shop': 'Cukrárna',
-                            'tavern': 'Hospoda',
-                            'playground': 'Dětské hřiště',
-                            'sightseeing': 'Památky',
-                            'natural_attraction': 'Příroda',
-                            'school': 'Škola',
-                            'restaurant': 'Restaurace',
-                            'tram': 'Tramvaj',
-                            'medic': 'Lékař',
-                            'metro': 'Metro',
-                            'bus_public_transport': 'Autobus',
-                            'kindergarten': 'Školka',
-                            'sports': 'Sport',
-                            'shop': 'Obchod',
-                            'post_office': 'Pošta',
-                            'train': 'Vlak',
-                            'atm': 'Bankomat',
-                            'drugstore': 'Lékárna'
-                        }
-                        readable_name = amenity_mapping.get(amenity, amenity)
-                        civic_amenities.append(readable_name)
-
-                civic_amenities_str = ", ".join(civic_amenities) if civic_amenities else "Neuvedeno"
-
+                
                 # Typ budovy a další vlastnosti z labelsAll
                 building_features = []
                 if 'labelsAll' in estate and len(estate['labelsAll']) > 0:
@@ -156,57 +133,40 @@ def fetch_sreality_data(pages=4):
 
                 building_features_str = ", ".join(building_features) if building_features else "Neuvedeno"
 
-                # Získání URL hlavního obrázku, pokud je k dispozici
-                main_image = "Neuvedeno"
-                if '_links' in estate and 'images' in estate['_links'] and estate['_links']['images']:
-                    main_image = estate['_links']['images'][0].get('href', 'Neuvedeno')
+                # Kontrola, zda jde o novostavbu
+                is_new_building = "1" if "Novostavba" in labels else "0"
+                is_reconstructed = "1" if "Po rekonstrukci" in labels else "0"
+                have_lift = "1" if "Výtah" in building_features_str else "0"
+                have_parking = "1" if "parking_lots" in building_features_str else "0"
+                have_basement = "1" if "Sklep" in building_features_str else "0"
+                have_balcony = "1" if "balcony" in building_features_str else "0"
 
                 # Vytvoření slovníku s informacemi o nemovitosti
                 estate_data = {
-                    "Název": name,
-                    "Dispozice": layout,
-                    "Lokalita": locality,
+                    "Pocet_pokoju": room_number,
+                    "Kuchyne": kitchen,
                     "Cena": format_price(price),
                     "Plocha": area,
                     "GPS_lat": lat,
                     "GPS_lon": lon,
-                    "Vlastnosti_budovy": building_features_str,
-                    "Občanská_vybavenost": civic_amenities_str,
                     "Novostavba": is_new_building,
-                    "Hlavní_obrázek": main_image,
-                    "Odkaz_na_detail": property_url
+                    "Rekonstuovano" : is_reconstructed, 
+                    "Vytah": have_lift, 
+                    "Parkovani": have_parking, 
+                    "Sklep": have_basement,
+                    "Balkon": have_balcony
                 }
 
-                # Přidání dat o nemovitosti do seznamu
                 all_estates.append(estate_data)
 
-                # Výpis informací do konzole
-                print(f"Název: {name}")
-                print(f"Dispozice: {layout}")
-                print(f"Lokalita: {locality}")
-                print(f"Cena: {format_price(price)} Kč")
-                print(f"Plocha: {area}")
-                print(f"GPS: {lat}, {lon}")
-                print(f"Vlastnosti budovy: {building_features_str}")
-                print(f"Občanská vybavenost: {civic_amenities_str}")
-                print(f"Novostavba: {is_new_building}")
-                print(f"Hlavní obrázek: {main_image}")
-                print(f"Odkaz na detail: {property_url}")
-                print("-" * 60)  # Oddělovač mezi nemovitostmi
-
-            print("=" * 80)  # Oddělovač mezi stránkami
-        else:
-            print(f"Chyba při získávání dat. Status code: {response.status_code}")
+            
 
     return all_estates
 
 
 if __name__ == "__main__":
-    # Počet stránek, které chceme stáhnout
-    num_pages = 4
+    num_pages = 50
 
-    # Získání dat
     estates_data = fetch_sreality_data(num_pages)
 
-    # Uložení dat do CSV
     save_to_csv(estates_data, "Kabrt")
