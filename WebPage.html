@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informace o Bytě</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+        }
+
+    </style>
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+    <div class="container bg-white p-4 rounded shadow-lg form-container">
+        <h2 class="mb-4 text-center">Vyplňte informace o bytě</h2>
+        <form>
+            <div class="mb-3">
+                <label for="pocet_pokoju" class="form-label">Počet pokojů:</label>
+                <input type="number" class="form-control" id="pocet_pokoju" name="pocet_pokoju" value="0" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="kuchyne" class="form-label">Kuchyně:</label>
+                <input type="number" class="form-control" id="kuchyne" name="kuchyne" value="0" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="plocha" class="form-label">Plocha (m²):</label>
+                <input type="number" class="form-control" id="plocha" name="plocha" value="0" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="gps_lat" class="form-label">GPS Latitude:</label>
+                <input type="text" class="form-control" id="gps_lat" name="gps_lat" value="0" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="gps_lon" class="form-label">GPS Longitude:</label>
+                <input type="text" class="form-control" id="gps_lon" name="gps_lon" value="0" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="rekonstuovano" class="form-label">Rekonstruováno:</label>
+                <select class="form-select" id="rekonstuovano" name="rekonstuovano">
+                    <option value="0">Ne</option>
+                    <option value="1">Ano</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="parkovani" class="form-label">Parkování:</label>
+                <select class="form-select" id="parkovani" name="parkovani">
+                    <option value="0">Ne</option>
+                    <option value="1">Ano</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="sklep" class="form-label">Sklep:</label>
+                <select class="form-select" id="sklep" name="sklep">
+                    <option value="0">Ne</option>
+                    <option value="1">Ano</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-success w-100">Odeslat</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>  
+</html>
