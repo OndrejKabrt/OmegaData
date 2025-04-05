@@ -14,6 +14,15 @@
             width: 100%;
             padding: 30px;
         }
+        #map {
+            height: 400px; /* Set map height */
+            margin-top: 20px;
+        }
+        .coordinates-display {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
 
     </style>
 </head>
@@ -38,7 +47,7 @@
                 <label for="plocha" class="form-label">Plocha (m²):</label>
                 <input type="number" class="form-control" id="plocha" name="plocha" value="" required>
             </div>
-            
+            <!--  
             <div class="mb-3">
                 <label for="gps_lat" class="form-label">GPS Latitude:</label>
                 <input type="text" class="form-control" id="gps_lat" name="gps_lat" value="" required>
@@ -47,8 +56,26 @@
             <div class="mb-3">
                 <label for="gps_lon" class="form-label">GPS Longitude:</label>
                 <input type="text" class="form-control" id="gps_lon" name="gps_lon" value="" required>
+            </div>-->
+
+            <div class="mb-3">
+                <label class="form-label">Umístění bytu:</label>
+                <p>Klikněte na mapu pro výběr lokace</p>
+                
+                <!-- Map element -->
+                <div id="map"></div>
+                
+                <!-- Display selected coordinates -->
+                <div class="coordinate-info">
+                    Vybrané souřadnice: <span id="coordinates-display">50.0471543, 14.0013247</span>
+                </div>
+                
+                <!-- Hidden fields for GPS coordinates -->
+                <input type="hidden" id="gps_lat" name="gps_lat" value="50.0471543">
+                <input type="hidden" id="gps_lon" name="gps_lon" value="14.0013247">
             </div>
             
+            <!--
             <div class="mb-3">
                 <label for="rekonstuovano" class="form-label">Rekonstruováno:</label>
                 <select class="form-select" id="rekonstuovano" name="rekonstuovano">
@@ -71,8 +98,9 @@
                     <option value="0">Ne</option>
                     <option value="1">Ano</option>
                 </select>
-            </div>       
-            
+            </div>
+            -->
+
             <button type="submit" class="btn btn-success w-100">Odeslat</button>
             <div class="mb-3">
                 <h3 id="predictedPrice">0 Kč</h3>
@@ -80,5 +108,40 @@
         </form>
     </div>
     <script src="script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize map when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize map with Prague coordinates
+            const map = L.map('map').setView([50.0471543, 14.0013247], 13);
+            
+            // Add map tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Create marker and add to map
+            let marker = L.marker([50.0471543, 14.0013247]).addTo(map)
+                .bindPopup("<b>Byt je zde</b>")
+                .openPopup();
+            
+            // When user clicks the map
+            map.on('click', function(e) {
+                // Update marker position
+                marker.setLatLng(e.latlng);
+                
+                // Update hidden form fields with new coordinates
+                document.getElementById('gps_lat').value = e.latlng.lat;
+                document.getElementById('gps_lon').value = e.latlng.lng;
+                
+                // Update displayed coordinates
+                document.getElementById('coordinates-display').textContent = 
+                    `${e.latlng.lat}, ${e.latlng.lng}`;
+                
+                // Open popup
+                marker.openPopup();
+            });
+        });
+    </script>
 </body>  
 </html>

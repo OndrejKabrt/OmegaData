@@ -3,29 +3,41 @@ import pickle
 import json
 import sklearn
 
-def predict(json_path):
-    input_features = ['Pocet_pokoju', 'Kuchyne', 'Plocha', 'GPS_lat', 'GPS_lon']
+def predict(json_data):
+    final_cost = 0
+    try:
+        input_features = ['Pocet_pokoju', 'Kuchyne', 'Plocha', 'GPS_lat', 'GPS_lon']
 
-    with open(json_path, 'r', encoding='utf-8') as file:
-        estate_data = json.load(file)
+        print("Vstup pro predikci:", json_data)
 
-    data = []
+        # Umožníme jak jeden dict, tak i list
+        if isinstance(json_data, dict):
+            json_data = [json_data]  # wrap do listu
 
-    for estate in estate_data:
-        ordered_estate = {}
-        for i in range(len(input_features)):
-            key = input_features[i]
-            value = estate.get(key)
-            ordered_estate[key] = value
-        data.append(ordered_estate)
+        data = []
+        for estate in json_data:
+            ordered_estate = {}
+            for key in input_features:
+                value = estate.get(key)
+                ordered_estate[key] = float(value)  # převedeme na float/int
+            data.append(ordered_estate)
 
-    df = pd.DataFrame(data)
+        df = pd.DataFrame(data)
 
-    load_model = pickle.load(open('./Model/LinearniStrom5Featur.pkl', 'rb'))
+        load_model = pickle.load(open('./Model/LinearniStrom5Featur.pkl', 'rb'))
 
-    y_pred = load_model.predict(df)
-    final_cost = y_pred * 1000
-    return f"{final_cost} Kč."
+        y_pred = load_model.predict(df)
+        #print("Predikce:", y_pred)
+        final_cost = y_pred[0] * 1000
+        return str(int(final_cost))
+
+    except Exception as e:
+        print("Chyba při predikci:", e)
+        return "Chyba: " + str(e)
+    
 
 #output = predict("./data.json")
 #print(output)
+
+data = {'Pocet_pokoju': '5', 'Kuchyne': '1', 'Plocha': '56', 'GPS_lat': '50.0471543', 'GPS_lon': '14.0013247', 'rekonstuovano': '0', 'parkovani': '0', 'sklep': '0'}
+print(predict(data))

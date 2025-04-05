@@ -37,10 +37,10 @@ formElement.addEventListener('submit', event => {
         "Kuchyne": document.getElementById('kuchyne').value,
         "Plocha": document.getElementById('plocha').value,
         "GPS_lat": document.getElementById('gps_lat').value,
-        "GPS_lon": document.getElementById('gps_lon').value,
+        "GPS_lon": document.getElementById('gps_lon').value /*,
         "rekonstuovano": document.getElementById('rekonstuovano').value,
         "parkovani": document.getElementById('parkovani').value,
-        "sklep": document.getElementById('sklep').value
+        "sklep": document.getElementById('sklep').value*/
     };
 
     

@@ -4,7 +4,7 @@ from costPredict import predict
 import logging
 
 app = Flask(__name__)
-CORS(app,origins=["http://localhost:5423"])
+CORS(app)
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -17,15 +17,15 @@ logging.basicConfig(
 @app.route('/api/predict', methods=['POST'])
 def predict_cost():
     estate = request.get_json()
+    print(estate)
     logging.info(f"Api recieved {estate}")
     try:
         cost = predict(estate)
     except Exception as e:
         logging.error(f"Error: {e}")
     else:
-        response = {"cost":cost}
-        logging.info(f"Model predicted {response}")
-        return make_response(response, 200)
+        logging.info(f"Model predicted {cost}")
+        return make_response(cost, 200)
     
 if __name__ == "__main__":
     ip = "127.0.0.1"
