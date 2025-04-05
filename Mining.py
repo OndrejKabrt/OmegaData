@@ -5,16 +5,6 @@ from datetime import datetime
 
 
 def save_to_csv(estates_data, filename=None):
-    """
-    Uloží data o nemovitostech do CSV souboru.
-
-    Args:
-        estates_data: List slovníků s informacemi o nemovitostech
-        filename: Název výstupního souboru (volitelný)
-
-    Returns:
-        Název vytvořeného souboru
-    """
     if filename is None:
         # Vytvoření názvu souboru s aktuálním datem a časem
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")

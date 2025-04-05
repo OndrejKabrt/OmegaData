@@ -17,30 +17,33 @@
 <body class="bg-light d-flex justify-content-center align-items-center vh-100">
     <div class="container bg-white p-4 rounded shadow-lg form-container">
         <h2 class="mb-4 text-center">Vyplňte informace o bytě</h2>
-        <form>
+        <form action="" class="houseForm">
             <div class="mb-3">
                 <label for="pocet_pokoju" class="form-label">Počet pokojů:</label>
-                <input type="number" class="form-control" id="pocet_pokoju" name="pocet_pokoju" value="0" required>
+                <input type="number" class="form-control" id="pocet_pokoju" name="pocet_pokoju" value="" required>
             </div>
             
             <div class="mb-3">
                 <label for="kuchyne" class="form-label">Kuchyně:</label>
-                <input type="number" class="form-control" id="kuchyne" name="kuchyne" value="0" required>
+                <select class="form-select" id="kuchyne" name="kuchyne" required>
+                    <option value="0">Ne</option>
+                    <option value="1">Ano</option>
+                </select>
             </div>
             
             <div class="mb-3">
                 <label for="plocha" class="form-label">Plocha (m²):</label>
-                <input type="number" class="form-control" id="plocha" name="plocha" value="0" required>
+                <input type="number" class="form-control" id="plocha" name="plocha" value="" required>
             </div>
             
             <div class="mb-3">
                 <label for="gps_lat" class="form-label">GPS Latitude:</label>
-                <input type="text" class="form-control" id="gps_lat" name="gps_lat" value="0" required>
+                <input type="text" class="form-control" id="gps_lat" name="gps_lat" value="" required>
             </div>
             
             <div class="mb-3">
                 <label for="gps_lon" class="form-label">GPS Longitude:</label>
-                <input type="text" class="form-control" id="gps_lon" name="gps_lon" value="0" required>
+                <input type="text" class="form-control" id="gps_lon" name="gps_lon" value="" required>
             </div>
             
             <div class="mb-3">
@@ -68,8 +71,29 @@
             </div>
             
             <button type="submit" class="btn btn-success w-100">Odeslat</button>
+            <p id="prediction"></p>
         </form>
     </div>
+    <!--  
+    <script>
+            const formEl = document.querySelector('.houseForm');
+            formEl.addEventListener('submit', event => {
+                event.preventDefault();
+
+                const formData = new FormData(formEl);
+                const data = Object.fromEntries(formData);
+
+               fetch('http://127.0.0.1:5500', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(res => res.json())
+                .then(data =>console.log(data))
+                .catch(error => console.log(error));
+            });
+    </script>-->
     <script src="script.js"></script>
 </body>  
 </html>
