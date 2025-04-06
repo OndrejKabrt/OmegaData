@@ -15,7 +15,7 @@
             padding: 30px;
         }
         #map {
-            height: 400px; /* Set map height */
+            height: 400px;
             margin-top: 20px;
         }
         .coordinates-display {
@@ -23,7 +23,6 @@
             font-size: 14px;
             color: #555;
         }
-
     </style>
 </head>
 <body class="bg-light d-flex justify-content-center align-items-center vh-100">
@@ -32,7 +31,7 @@
         <form action="" class="houseForm">
             <div class="mb-3">
                 <label for="pocet_pokoju" class="form-label">Počet pokojů:</label>
-                <input type="number" class="form-control" id="pocet_pokoju" name="pocet_pokoju" value="" required>
+                <input type="number" class="form-control" id="pocet_pokoju" name="pocet_pokoju" value="" min="1" max="5" required>
             </div>
             
             <div class="mb-3">
@@ -45,7 +44,7 @@
             
             <div class="mb-3">
                 <label for="plocha" class="form-label">Plocha (m²):</label>
-                <input type="number" class="form-control" id="plocha" name="plocha" value="" required>
+                <input type="number" class="form-control" id="plocha" name="plocha" value="" min="1" max="200" required>
             </div>
             
             <!--  
@@ -63,15 +62,12 @@
                 <label class="form-label">Umístění bytu:</label>
                 <p>Klikněte na mapu pro výběr lokace</p>
                 
-                <!-- Map element -->
                 <div id="map"></div>
                 
-                <!-- Display selected coordinates -->
                 <div class="coordinate-info">
                     Vybrané souřadnice: <span id="coordinates-display">50.0471543, 14.0013247</span>
                 </div>
                 
-                <!-- Hidden fields for GPS coordinates -->
                 <input type="hidden" id="gps_lat" name="gps_lat" value="50.0471543">
                 <input type="hidden" id="gps_lon" name="gps_lon" value="14.0013247">
             </div>

@@ -17,7 +17,7 @@ logging.basicConfig(
 @app.route('/api/predict', methods=['POST'])
 def predict_cost():
     estate = request.get_json()
-    print(estate)
+    #print(estate)
     logging.info(f"Api recieved {estate}")
     try:
         cost = predict(estate)

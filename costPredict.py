@@ -8,7 +8,7 @@ def predict(json_data):
     try:
         input_features = ['Pocet_pokoju', 'Kuchyne', 'Plocha', 'GPS_lat', 'GPS_lon']
 
-        print("Vstup pro predikci:", json_data)
+        #print("Vstup pro predikci:", json_data)
 
         if isinstance(json_data, dict):
             json_data = [json_data]
@@ -31,7 +31,7 @@ def predict(json_data):
         return str(int(final_cost))
 
     except Exception as e:
-        print("Chyba při predikci:", e)
+        #print("Chyba při predikci:", e)
         return "Chyba: " + str(e)
     
 

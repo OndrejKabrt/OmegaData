@@ -36,9 +36,9 @@ Pro spuštění aplikace postupujte následovně:
    python -m venv venv
    .\venv\Scripts\pip.exe install -r .\requirements.txt
    ```
-3. Spusťte soubor `api.py`:
+3. Spusťte soubor `.\venv\Scripts\python.exe .\api.py`:
    ```bash
-   python api.py
+   .\venv\Scripts\python.exe .\api.py
    ```
 
 Po provedení těchto kroků by měl být backend připraven přijímat data z hlavní HTML stránky.
@@ -119,9 +119,9 @@ To run the application, follow these steps:
    python -m venv venv
    .\venv\Scripts\pip.exe install -r .\requirements.txt
    ```
-3. Run the `api.py` file:
+3. Run the `.\venv\Scripts\python.exe .\api.py` file:
    ```bash
-   python api.py
+   .\venv\Scripts\python.exe .\api.py
    ```
 
 After completing these steps, the backend should be ready to receive data from the main HTML page.
