@@ -1,7 +1,7 @@
 # OmegaData
 # Webová Aplikace na Odhadování Ceny Bytů
 
-Tato webová aplikace slouží k odhadování ceny bytů na základě zadaných parametrů. Je postavena na HTML s javascriptem na front-endu a Python API na back-endu. Aplikace využívá model strojového učení k predikci ceny nemovitosti.
+Tato webová aplikace slouží k odhadování ceny bytů na základě zadaných parametrů. Je postavena na HTML s javascriptem na front-endu a Python API na back-endu. Aplikace využívá model strojového učení k predikci ceny nemovitosti. Webovou aplikaci jsem pojmenoval Estatio.
 
 ## Architektura projektu
 
@@ -85,7 +85,7 @@ Projekt byl vytvořen s pomocí konzultací se spolužáky:
 
 # Web Application for Apartment Price Estimation
 
-This web application is used to estimate apartment prices based on input parameters. It is built on HTML with JavaScript on the front-end and a Python API on the back-end. The application uses a machine learning model to predict property prices.
+This web application is used to estimate apartment prices based on input parameters. It is built on HTML with JavaScript on the front-end and a Python API on the back-end. The application uses a machine learning model to predict property prices. I named my web page Estatio.
 
 ## Project Architecture
 
