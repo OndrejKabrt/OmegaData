@@ -10,16 +10,15 @@ def predict(json_data):
 
         print("Vstup pro predikci:", json_data)
 
-        # Umožníme jak jeden dict, tak i list
         if isinstance(json_data, dict):
-            json_data = [json_data]  # wrap do listu
+            json_data = [json_data]
 
         data = []
         for estate in json_data:
             ordered_estate = {}
             for key in input_features:
                 value = estate.get(key)
-                ordered_estate[key] = float(value)  # převedeme na float/int
+                ordered_estate[key] = float(value)
             data.append(ordered_estate)
 
         df = pd.DataFrame(data)
@@ -39,5 +38,5 @@ def predict(json_data):
 #output = predict("./data.json")
 #print(output)
 
-data = {'Pocet_pokoju': '5', 'Kuchyne': '1', 'Plocha': '56', 'GPS_lat': '50.0471543', 'GPS_lon': '14.0013247', 'rekonstuovano': '0', 'parkovani': '0', 'sklep': '0'}
-print(predict(data))
+#data = {'Pocet_pokoju': '5', 'Kuchyne': '1', 'Plocha': '56', 'GPS_lat': '50.0471543', 'GPS_lon': '14.0013247', 'rekonstuovano': '0', 'parkovani': '0', 'sklep': '0'}
+#print(predict(data))
