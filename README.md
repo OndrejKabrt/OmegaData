@@ -24,6 +24,7 @@ Tato webová aplikace slouží k odhadování ceny bytů na základě zadaných 
 - Random Forest Regression model
 - Trénován na přibližně 3200 záznamech z webu Sreality (https://www.sreality.cz/)
 - Vybrán na základě nejnižší chybovosti v porovnání s jinými modely
+- Za ceny predikované tímto modelem nijak neručím, protože tento model není 100% přesný a nebere v potaz všechny aspekty potřebné pro určení přesné ceny.
 
 ## Instalace a spuštění
 
@@ -76,5 +77,88 @@ Projekt byl vytvořen s pomocí konzultací se spolužáky:
 - Tomáš Križko
 
 ### Externí zdroje:
+- https://chatgpt.com/share/67f18bc9-9bac-8004-b204-6144dde9be32
+- https://youtu.be/DqyJFV7QJqc?si=yLD0Kn5MuFlzPXpl
+
+==============================================================================================================
+
+# Web Application for Apartment Price Estimation
+
+This web application is used to estimate apartment prices based on input parameters. It is built on HTML with JavaScript on the front-end and a Python API on the back-end. The application uses a machine learning model to predict property prices.
+
+## Project Architecture
+
+### Frontend
+- Clean HTML with minimal CSS (using Bootstrap framework)
+- JavaScript for collecting form data and map interaction
+- The form includes the following inputs:
+  - Number of rooms
+  - Apartment area
+  - Presence of a kitchen (Yes/No)
+  - Apartment location (selected on a map, providing latitude and longitude)
+
+### Backend
+- Python API that receives data from the form
+- Processes data into the format required by the model
+- Uses the model to predict apartment prices
+- Returns the estimated price in Czech crowns back to the frontend
+
+### Model
+- Random Forest Regression model
+- Trained on approximately 3200 records from the Sreality website (https://www.sreality.cz/)
+- Selected based on the lowest error rate compared to other models
+- I do not guarantee the prices predicted by this model, as this model is not 100% accurate and does not take into account all aspects necessary to determine an accurate price.
+
+## Installation and Launch
+
+To run the application, follow these steps:
+
+1. Download this repository from Github
+2. Open the command line in the project folder and run the following commands:
+   ```bash
+   python -m venv venv
+   .\venv\Scripts\pip.exe install -r .\requirements.txt
+   ```
+3. Run the `api.py` file:
+   ```bash
+   python api.py
+   ```
+
+After completing these steps, the backend should be ready to receive data from the main HTML page.
+
+## Model Training
+
+A Random Forest Regressor was chosen for predicting apartment prices. This model was selected after comparison with several other models:
+
+- Random Forest Regressor
+- AdaBoost Regressor
+- Linear Regression
+- Gradient Boosting Regressor
+- Neural Network
+
+The Random Forest Regressor achieved the lowest error rate of all tested models. The Neural Network, conversely, produced the worst results.
+
+Detailed information about the training and testing process of the models is available in the Google Colab notebook included in the repository in the `Model` folder.
+
+## Project Structure
+
+- **Root**
+  - `index.html` - main application page
+  - `api.py` - backend API
+  - `requirements.txt` - list of required Python packages
+  - `script.js` - file containing JavaScript needed for functionality
+  - `costPredict.py` - code that inputs data into the model, which then returns the estimated price
+  - **/Data** - folder containing training data and data collection scripts
+  - **/Model** - folder containing the Google Colab notebook with the model training process and the model itself
+  - **/venv** - Python virtual environment (created during installation)
+
+## Resources and Consultations
+
+The project was created with consultation assistance from classmates:
+- Adam Hlaváčik
+- Martin Hornych
+- Tomáš Križko
+
+### External Sources:
 - https://chatgpt.com/share/67f18bc9-9bac-8004-b204-6144dde9be32
 - https://youtu.be/DqyJFV7QJqc?si=yLD0Kn5MuFlzPXpl
