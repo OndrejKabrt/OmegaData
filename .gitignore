@@ -3,5 +3,4 @@ venv
 application.log
 Pokrocile
 package-lock.json
-*.pkl
 .gitignore
