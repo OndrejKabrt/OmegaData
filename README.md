@@ -79,6 +79,7 @@ Projekt byl vytvořen s pomocí konzultací se spolužáky:
 ### Externí zdroje:
 - https://chatgpt.com/share/67f18bc9-9bac-8004-b204-6144dde9be32
 - https://youtu.be/DqyJFV7QJqc?si=yLD0Kn5MuFlzPXpl
+- https://claude.ai/share/a5f4c6ab-6a29-41b3-b2c7-558a506a081e
 
 ==============================================================================================================
 
@@ -162,3 +163,4 @@ The project was created with consultation assistance from classmates:
 ### External Sources:
 - https://chatgpt.com/share/67f18bc9-9bac-8004-b204-6144dde9be32
 - https://youtu.be/DqyJFV7QJqc?si=yLD0Kn5MuFlzPXpl
+- https://claude.ai/share/a5f4c6ab-6a29-41b3-b2c7-558a506a081e

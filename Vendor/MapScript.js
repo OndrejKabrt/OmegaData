@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update displayed coordinates
         document.getElementById('coordinates-display').textContent = 
-            `${e.latlng.lat}, ${e.latlng.lng}`;
+            `${e.latlng.lat + "N"}, ${e.latlng.lng + "E"}`;
         
         // Open popup
         marker.openPopup();

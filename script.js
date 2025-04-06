@@ -57,8 +57,11 @@ formElement.addEventListener('submit', event => {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data); // data = { prediction: '123456' }
-        document.getElementById('predictedPrice').textContent = data + " Kč";
+        console.log(data); // data = '123456'
+        const formatted = data.toLocaleString('cs-CZ', {
+            maximumFractionDigits: 2
+          });
+        document.getElementById('predictedPrice').textContent = formatted + " Kč";
     })
     .catch(error => console.log(error));
 });
